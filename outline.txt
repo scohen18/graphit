@@ -1,0 +1,15 @@
+objectives:
+
+1. Create an analysis tool for stock with a useful UI.
+2. Graphing tools
+3. Price history
+4. Sorting tools
+
+To be a successful project, this program must,
+
+1. Generate data based on a ticker symbol and compare it to different symbols
+2. Generate ticker symbols based on data parameters
+
+To be a successful project, this progrom should,
+
+1. Have a useful HTML UI

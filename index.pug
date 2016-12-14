@@ -1,0 +1,18 @@
+link(rel='stylesheet' href='style.css')
+
+h1 my awesome 20 percent project
+form
+    input(id = "tickerIn" type="text" name="ticker")
+    input(id = "selectTicker" type="radio" name="selectType")
+    span  ticker symbol
+    br
+    input(id = "nameIn" type="text" name="name")
+    input(id = "selectName" type="radio"  name="selectType")
+    span  stock name
+    br
+    input(type="button" name="submit" value="submit" onclick="update();")
+canvas(id="chart" width="400" height="400")
+
+script(src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous")
+script(src="Chart.bundle.js")
+script(src="web.js")

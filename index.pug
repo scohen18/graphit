@@ -1,19 +1,28 @@
-//link(rel='stylesheet' href='style.css')
+link(rel='stylesheet', href='/style.css')
+link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
 
-h1 graph.it
-form
-    input(id = "tickerIn" type="text" name="ticker")
-    input(id = "selectTicker" type="radio" name="selectType")
-    span  ticker symbol
-    br
-    input(id = "nameIn" type="text" name="name")
-    input(id = "selectName" type="radio"  name="selectType")
-    span  stock name
-    br
-    input(type="button" name="submit" value="submit" onclick="update();")
-    input(type="button" name="clear" value="clear" onclick="clearGraph();")
-div(id="chartSection")
-    canvas(id="chart" width="400" height="400")
+div(class="container-fluid titlebar")
+    span(class="glyphicon glyphicon-stats titleText")
+
+br
+br
+div(class="container")
+    form
+        input(id = "tickerIn" type="text" class="input" name="ticker" placeholder="ticker name")
+        input(class="radioCustom" id = "selectTicker" type="radio" name="selectType")
+        br
+        input(id = "nameIn" type="text" class="input" name="name" placeholder="company name")
+        input(class="radioCustom" id = "selectName" type="radio"  name="selectType")
+        br
+        button(class="button" type="button" value="submit" onclick="update();")
+            p Submit
+        button(class="button" type="button" value="clear" onclick="clearGraph();")
+            p Clear
+
+    div(class="container" id="chartSection")
+        canvas(id="chart" width="400" height="400")
 
 script(src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous")
 script(src="Chart.bundle.js")

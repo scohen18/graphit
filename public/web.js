@@ -1,4 +1,5 @@
 var ctx = document.getElementById("chart");
+var chartSection = document.getElementById("chartSection");
 var tickerIn = document.getElementById("tickerIn");
 var nameIn = document.getElementById("nameIn");
 var inputMaster;
@@ -10,33 +11,39 @@ function makeChart(dataIn, titleIn)
         label: titleIn
         });
 }
-
-
+function clearGraph()
+{
+    var newChart = document.createElement("Canvas");
+    newChart.setAttribute("id","chart");
+    newChart.setAttribute("width","400");
+    newChart.setAttribute("height","400");
+    ctx.remove();
+    chartSection.removeChild(chartSection.childNodes[0]);
+    chartSection.appendChild(newChart);
+}
 function update()
 {
-    console.log("update press");
-    
     if(document.getElementById("selectTicker").checked)
     {
             inputMaster = tickerIn.value;
     }
     else if(document.getElementById("selectName").checked)
     {
-            inputMaster = nameIn.value;
+
+            getName(nameIn.value, function(response){
+              inputMaster = response;
+              console.log(inputMaster);
+            });
     }
     else
     {
         console.log("none selected");
     }
-    
-    console.log(inputMaster);
-    
+
     loadDoc(inputMaster, function(response) {
-        console.log(response);
-        console.log(response.Elements[0])
         var chartData = response.Elements[0].DataSeries.close.values;
         var chartLabels = response.Dates;
-        
+
         var data = {
             labels:chartLabels,
             datasets: [
@@ -64,15 +71,19 @@ function update()
                 }
             ]
         };
-    
+
     makeChart(data,"name");
     });
 }
 function loadDoc(inputTicker, cb) {
 
     $.get("/chart?inputTicker="+inputTicker, function(data) {
-        console.log(JSON.parse(data));
         cb(JSON.parse(data));
     })
-    
+
+}
+function getName(inName, cb) {
+  $.get("/name?inputName="+inName, function(data) {
+      cb(data);
+  })
 }

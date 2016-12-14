@@ -17,6 +17,14 @@ app.get("/chart",function(req,res){
     })
 
 });
+app.get("/name",function(req,res){
+    var inputName = req.query.inputName;
+    name(inputName, function(response) {
+        res.json(response.body[0].Symbol);
+    })
+
+});
+
 app.listen(8000);
 
 var currentSymbol;
@@ -27,7 +35,7 @@ prompt.command('stock <ticker>').description('get information from <ticker>').ac
     stock(ticker);
 });
 
-prompt.command('name <name>').description('get ticker name from <name>').action(function (sName, command) { 
+prompt.command('name <name>').description('get ticker name from <name>').action(function (sName, command) {
     name(sName);
 });
 
@@ -47,14 +55,10 @@ function printData(ticker)
             console.log(Object.keys(ticker)[i] + ": ".red + ticker[Object.keys(ticker)[i]]);
         }
 }
-function printChart(chart)
-{
-    console.log(chart);
-}
 function stock(inTicker)
 {
     var output;
-    
+
     unirest.post('http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=' + inTicker).headers({
         'Accept': 'application/json'
         , 'Content-Type': 'application/json'
@@ -65,13 +69,12 @@ function stock(inTicker)
         output = response.raw_body;
         printData(output);
     });
-    
+
     return output;
 }
-function name(inName)
+function name(inName, cb)
 {
-    var output;
-    
+
     unirest.post('http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?input=' + inName).headers({
         'Accept': 'application/json'
         , 'Content-Type': 'application/json'
@@ -79,15 +82,12 @@ function name(inName)
         "parameter": 23
         , "foo": "bar"
     }).end(function (response) {
-        output = response.raw_body[0].Symbol;
-        console.log(output);
+        cb(response);
     });
-    
-    return output;
 }
 function chart(inTicker, cb)
 {
-    
+
     var input = {
         Normalized: false,
         NumberOfDays: 365,
@@ -95,15 +95,12 @@ function chart(inTicker, cb)
         DataPeriod: "Day",
         Elements: [{Symbol: inTicker, Type: "price", Params: ["c"]}]
     }
-    
+
     unirest.get('http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/json?parameters=' + JSON.stringify(input)).headers({
         'Accept': 'application/json'
         , 'Content-Type': 'application/json'
     }).end(function (response) {
-        
-        //printChart(output.raw_body);
         cb(response);
-
     });
-    
+
 }
